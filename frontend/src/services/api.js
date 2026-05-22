@@ -1,8 +1,10 @@
 /**
- * Servicio de API — conecta el frontend con el backend Express.
+ * Servicio de API.
+ * Con Firebase Hosting + Functions, las rutas /api/*
+ * se resuelven en el mismo dominio — no necesitas VITE_API_URL.
  */
 
-const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:4000/api';
+const API_URL = import.meta.env.VITE_API_URL || '/api';
 
 const apiFetch = async (endpoint, options = {}) => {
   const url = `${API_URL}${endpoint}`;
@@ -12,7 +14,6 @@ const apiFetch = async (endpoint, options = {}) => {
   return data;
 };
 
-// ── Productos ────────────────────────────────────────────
 export const obtenerProductos = (categoria = null) => {
   const params = categoria ? `?categoria=${categoria}` : '';
   return apiFetch(`/productos${params}`);
@@ -20,17 +21,8 @@ export const obtenerProductos = (categoria = null) => {
 
 export const obtenerProducto = (id) => apiFetch(`/productos/${id}`);
 
-// ── Pedidos ──────────────────────────────────────────────
-
-/**
- * Envía el pedido completo con comprobante de pago.
- * Usa FormData (multipart) para poder adjuntar la imagen.
- *
- * @param {FormData} formData - Todos los campos + archivo "comprobante"
- */
 export const enviarPedidoConPago = (formData) =>
   apiFetch('/pedidos', {
     method: 'POST',
-    // NO pongas Content-Type — el browser lo pone automáticamente con el boundary correcto
     body: formData,
   });

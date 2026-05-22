@@ -15,21 +15,30 @@ import pedidosRouter from './routes/pedidos.js';
 const app = express();
 const PORT = process.env.PORT || 4000;
 
+// ── TRUST PROXY: necesario en Railway/Heroku/cualquier servidor con proxy ──
+app.set('trust proxy', 1);
+
 // ──────────────────────────────────────────
 // Middlewares de seguridad y utilidad
 // ──────────────────────────────────────────
-app.use(helmet()); // Headers de seguridad HTTP
+app.use(helmet());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URL || 'http://localhost:5173',
+    origin: [
+      process.env.FRONTEND_URL || 'http://localhost:5173',
+      'http://localhost:5173',
+      'https://quesomerimun.com',
+      'https://queso-miramu.web.app',
+    ],
     methods: ['GET', 'POST', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
   })
 );
-app.use(express.json({ limit: '10kb' })); // Limita payload a 10KB
+app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan(process.env.NODE_ENV === 'production' ? 'combined' : 'dev'));
-app.use('/api', apiLimiter); // Rate limit global
+app.use('/api', apiLimiter);
 
 // ──────────────────────────────────────────
 // Rutas
@@ -47,12 +56,12 @@ app.get('/api/health', (req, res) => {
 app.use('/api/productos', productosRouter);
 app.use('/api/pedidos', pedidosRouter);
 
-// 404 para rutas no encontradas
+// 404
 app.use('*', (req, res) => {
   res.status(404).json({ success: false, error: `Ruta ${req.originalUrl} no encontrada.` });
 });
 
-// Manejador de errores global (debe ir al final)
+// Manejador de errores global
 app.use(errorHandler);
 
 // ──────────────────────────────────────────
