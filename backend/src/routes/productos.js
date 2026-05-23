@@ -27,6 +27,7 @@ router.get('/', async (req, res, next) => {
     const { categoria } = req.query;
 
     let query = db.collection('productos').where('disponible', '==', true);
+    console.log('Consulta de productos, categoría:', categoria || 'todas');
 
     if (categoria) {
       const categoriasValidas = ['frescos', 'madurados', 'combos', 'especiales'];
@@ -35,14 +36,18 @@ router.get('/', async (req, res, next) => {
           success: false,
           error: `Categoría inválida. Usa: ${categoriasValidas.join(', ')}`,
         });
+      
       }
       query = query.where('categoria', '==', categoria);
     }
 
+
     query = query.orderBy('orden', 'asc');
 
+    console.log('Ejecutando consulta a Firestore para productos...');
     const snapshot = await query.get();
 
+    console.log(`Productos obtenidos: ${snapshot.size}`);
     const productos = snapshot.docs.map((doc) => ({
       id: doc.id,
       ...doc.data(),
@@ -50,8 +55,8 @@ router.get('/', async (req, res, next) => {
       precio: Number(doc.data().precio) || 0,
       destacado: Boolean(doc.data().destacado),
     }));
-
-    res.json({
+    console.log('Productos procesados para respuesta:', productos.length);
+    return res.json({
       success: true,
       total: productos.length,
       data: productos,
