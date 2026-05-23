@@ -1,2 +1,7 @@
 # Ignorar credenciales de Firebase
 queso-miramu-firebase-adminsdk-*.json
+.env
+.env.production
+.env.development
+node_modules/
+dist/
