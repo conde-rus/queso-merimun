@@ -1,24 +1,43 @@
 import { useProductos } from '../../hooks/useProductos';
 import ProductCard from '../ui/ProductCard';
 
-/**
- * Sección del menú interactivo.
- * Carga productos desde la API, filtra por categoría y los muestra en grid.
- */
 const Menu = ({ onPedir }) => {
   const { productos, cargando, error, categoriaActiva, setCategoriaActiva, categorias, recargar } =
     useProductos();
 
   return (
-    <section id="menu" className="py-20 bg-queso-50">
-      <div className="max-w-6xl mx-auto px-6">
+    <section
+      id="menu"
+      className="py-20"
+      style={{
+        position: 'relative',
+        backgroundImage: "url('/cheese-pattern.jpg')",
+        backgroundRepeat: 'repeat',
+        backgroundSize: '400px 400px',
+      }}
+    >
+      {/* Capa de color encima del fondo para suavizarlo */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          backgroundColor: 'rgba(255, 248, 230, 0.82)',
+          zIndex: 0,
+        }}
+      />
+
+      {/* Contenido */}
+      <div className="max-w-6xl mx-auto px-6" style={{ position: 'relative', zIndex: 1 }}>
+
         {/* Header de sección */}
         <div className="text-center mb-12">
           <span className="font-body text-queso-600 text-sm font-medium tracking-widest uppercase">
             — Nuestro Catálogo —
           </span>
-          <h2 className="font-display font-bold text-corteza-800 mt-2 mb-4"
-            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}>
+          <h2
+            className="font-display font-bold text-corteza-800 mt-2 mb-4"
+            style={{ fontSize: 'clamp(2rem, 4vw, 3rem)' }}
+          >
             Menú de Quesos
           </h2>
           <p className="font-body text-corteza-500 max-w-xl mx-auto leading-relaxed">

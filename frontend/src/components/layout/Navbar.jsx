@@ -31,18 +31,13 @@ const Navbar = () => {
     >
       <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
-        {/* ── LOGO ── */}
-        <button
-          onClick={() => scrollTo('#inicio')}
-          className="flex items-center group"
-        >
+        {/* ── LOGO ESCRITORIO ── */}
+        <button onClick={() => scrollTo('#inicio')} className="flex items-center group">
           <img
-            src="/logo1.png" 
-            alt="La Quesería de Miramu"
-            className={`h-10 w-auto object-contain transition-all duration-300 ${
-              scrolled
-                ? 'brightness-90'        /* un toque más oscuro sobre fondo blanco */
-                : 'brightness-110'       /* brillo extra sobre fondo oscuro del hero */
+            src="logo2.png"
+            alt="La Quesería de Merimun"
+            className={`h-12 w-auto object-contain transition-all duration-300 ${
+              scrolled ? 'brightness-90' : 'brightness-110'
             }`}
           />
         </button>
@@ -84,30 +79,45 @@ const Navbar = () => {
         </button>
       </div>
 
-      {/* Menú móvil desplegable */}
+      {/* ── MENÚ MÓVIL ── */}
       {menuOpen && (
-        <div className="md:hidden bg-white border-t border-queso-100 px-6 py-4 flex flex-col gap-3 shadow-lg animate-fade-in">
-          {/* Logo dentro del menú móvil */}
-          <div className="flex justify-center pb-3 border-b border-queso-100">
-            <img
-              src="/logo1.png"
-              alt="La Quesería de Miramu"
-              className="h-10 w-auto object-contain"
-            />
+        <div className="md:hidden bg-white border-t border-queso-100 px-6 py-5 flex flex-col gap-3 shadow-xl animate-fade-in">
+
+          {/* Logo grande y visible sobre fondo marrón */}
+          <div className="flex justify-center items-center py-4 mb-1">
+            <div
+              className="flex items-center justify-center rounded-2xl px-8 py-4 shadow-lg w-full"
+              style={{ background: 'linear-gradient(135deg, #78350F, #92400E)' }}
+            >
+              <img
+                src="logo2.png"
+                alt="La Quesería de Merimun"
+                style={{
+                  height: '72px',
+                  width: 'auto',
+                  objectFit: 'contain',
+                  filter: 'brightness(1.15)',
+                }}
+              />
+            </div>
           </div>
+
+          {/* Separador */}
+          <div className="border-b border-queso-100 mb-1" />
 
           {navLinks.map((link) => (
             <button
               key={link.href}
               onClick={() => scrollTo(link.href)}
-              className="text-left font-body text-corteza-700 py-2 border-b border-queso-100 hover:text-queso-600 transition-colors"
+              className="text-left font-body text-corteza-700 py-2.5 border-b border-queso-50 hover:text-queso-600 transition-colors text-base font-medium"
             >
               {link.label}
             </button>
           ))}
+
           <button
             onClick={() => scrollTo('#contacto')}
-            className="mt-2 px-5 py-2.5 rounded-full bg-queso-600 text-white font-medium font-body text-center"
+            className="mt-3 px-5 py-3 rounded-full bg-queso-600 text-white font-bold font-body text-center text-base hover:bg-queso-700 transition-colors"
           >
             Hacer Pedido
           </button>

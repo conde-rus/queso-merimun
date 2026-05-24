@@ -1,32 +1,25 @@
 import { useState } from 'react';
 
 /**
- * Tarjeta individual de producto del menú.
- * Muestra imagen, nombre, descripción, precio y CTA.
+ * Tarjeta de producto — SIN precio, con botón "Agregar al pedido"
+ * Al hacer clic lleva al formulario con el producto preseleccionado.
  */
 const ProductCard = ({ producto, onPedir }) => {
   const [imgError, setImgError] = useState(false);
   const [hovering, setHovering] = useState(false);
+  const [agregado, setAgregado] = useState(false);
 
-  const {
-    nombre,
-    descripcion,
-    precio,
-    unidad = 'por kg',
-    imagen,
-    destacado,
-    etiquetas = [],
-  } = producto;
+  const { nombre, descripcion, imagen, destacado, etiquetas = [], peso, unidad } = producto;
 
-  const precioFormateado = new Intl.NumberFormat('es-CO', {
-    style: 'currency',
-    currency: 'COP',
-    minimumFractionDigits: 0,
-  }).format(precio);
-
-  // Emoji fallback por categoría
-  const emojisFallback = ['🧀', '🥛', '🍽️', '⭐'];
-  const emojiFallback = emojisFallback[Math.floor(Math.random() * emojisFallback.length)];
+  const handleAgregar = () => {
+    setAgregado(true);
+    setTimeout(() => setAgregado(false), 2000);
+    onPedir(producto);
+    // Scroll suave al formulario
+    setTimeout(() => {
+      document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
+    }, 150);
+  };
 
   return (
     <article
@@ -62,8 +55,6 @@ const ProductCard = ({ producto, onPedir }) => {
             <span className="text-7xl opacity-60 animate-float">🧀</span>
           </div>
         )}
-
-        {/* Overlay sutil al hacer hover */}
         <div
           className={`absolute inset-0 bg-gradient-to-t from-corteza-900/20 to-transparent transition-opacity duration-300 ${
             hovering ? 'opacity-100' : 'opacity-0'
@@ -95,22 +86,31 @@ const ProductCard = ({ producto, onPedir }) => {
           {descripcion}
         </p>
 
-        {/* Precio + CTA */}
-        <div className="flex items-center justify-between">
-          <div>
-            <span className="font-display font-bold text-queso-700 text-xl">
-              {precioFormateado}
+        {/* Peso / presentación — en vez del precio */}
+        {(peso || unidad) && (
+          <div className="flex items-center gap-1.5 mb-4">
+            <span className="text-sm">⚖️</span>
+            <span className="font-body text-corteza-600 text-sm font-medium">
+              {peso || unidad}
             </span>
-            <span className="font-body text-corteza-400 text-xs ml-1">{unidad}</span>
           </div>
+        )}
 
-          <button
-            onClick={() => onPedir(producto)}
-            className="px-4 py-2 rounded-full bg-queso-600 hover:bg-queso-700 text-white text-sm font-body font-medium transition-all duration-200 hover:shadow-md hover:-translate-y-px active:translate-y-0"
-          >
-            Pedir →
-          </button>
-        </div>
+        {/* Botón Agregar */}
+        <button
+          onClick={handleAgregar}
+          className={`w-full py-2.5 rounded-xl font-body font-bold text-sm transition-all duration-200 flex items-center justify-center gap-2 ${
+            agregado
+              ? 'bg-green-500 text-white'
+              : 'bg-queso-600 hover:bg-queso-700 text-white hover:shadow-md hover:-translate-y-px active:translate-y-0'
+          }`}
+        >
+          {agregado ? (
+            <>✓ Agregado — completa tu pedido</>
+          ) : (
+            <>+ Agregar al pedido</>
+          )}
+        </button>
       </div>
     </article>
   );

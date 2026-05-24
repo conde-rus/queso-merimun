@@ -1,187 +1,138 @@
-/**
- * Script de seed para poblar Firebase con productos de ejemplo.
- * Ejecutar UNA SOLA VEZ para inicializar la base de datos.
- *
- * Uso: node scripts/seed.js
- */
+
 
 import 'dotenv/config';
+import { readFileSync } from 'fs';
+import { resolve, dirname } from 'path';
+import { fileURLToPath } from 'url';
 import admin from 'firebase-admin';
 
-const serviceAccount = {
-  project_id: process.env.FIREBASE_PROJECT_ID,
-  client_email: process.env.FIREBASE_CLIENT_EMAIL,
-  private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-};
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
-admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
+let credential;
+try {
+  const jsonPath = resolve(__dirname, '../queso-miramu-firebase-adminsdk-fbsvc-d55bd44ce7.json');
+  const serviceAccount = JSON.parse(readFileSync(jsonPath, 'utf8'));
+  credential = admin.credential.cert(serviceAccount);
+  console.log('✅ Credenciales cargadas desde JSON');
+} catch {
+  credential = admin.credential.cert({
+    projectId: process.env.FIREBASE_PROJECT_ID,
+    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+  });
+  console.log('✅ Credenciales cargadas desde .env');
+}
+
+admin.initializeApp({ credential });
 const db = admin.firestore();
 
-const productosEjemplo = [
-  // ─── FRESCOS ───────────────────────────────────
+// ─────────────────────────────────────────────────────────
+// 5 PRODUCTOS REALES DE MERIMUN
+// ─────────────────────────────────────────────────────────
+const productos = [
   {
-    nombre: 'Queso Campesino Fresco',
-    descripcion: 'Queso blanco suave y húmedo, ideal para acompañar arepas y café. Elaborado con leche entera de vaca, salado al gusto.',
-    precio: 18000,
-    unidad: 'por kg',
-    categoria: 'frescos',
-    imagen: null, // Reemplaza con URL de Firebase Storage
-    disponible: true,
-    destacado: true,
-    orden: 1,
-    etiquetas: ['artesanal', 'sin preservantes'],
-  },
-  {
-    nombre: 'Mozzarella Artesanal',
-    descripcion: 'Mozzarella fresca elaborada con técnica italiana. Perfecta para pizzas, ensaladas caprese y pastas gratinadas.',
-    precio: 28000,
-    unidad: 'por 500g',
+    nombre: 'Queso Mana Merimun',
+    descripcion: 'Queso fresco semiduro semigraso en lonchas. Suave, cremoso y perfecto para sándwiches, arepas y snacks del día a día.',
+    peso: '250g · 6 porciones',
+    unidad: 'por 250g',
     categoria: 'frescos',
     imagen: null,
     disponible: true,
-    destacado: false,
-    orden: 2,
-    etiquetas: ['italiano', 'elástico'],
+    destacado: true,
+    orden: 1,
+    etiquetas: ['250g', 'lonchas', 'más suave'],
   },
   {
-    nombre: 'Queso Doble Crema',
-    descripcion: 'Suave, cremoso y con alto contenido de grasa. El favorito de Colombia para quesillo y aborrajados.',
-    precio: 22000,
-    unidad: 'por kg',
+    nombre: 'Queso Mozzarella Merimun',
+    descripcion: 'Gran bloque de mozzarella artesanal. Textura elástica y sabor fresco. Ideal para pizzas, gratinados y pastas.',
+    peso: '2.400g (2.4 kg)',
+    unidad: 'bloque de 2.4 kg',
+    categoria: 'frescos',
+    imagen: null,
+    disponible: true,
+    destacado: true,
+    orden: 2,
+    etiquetas: ['2.4 kg', 'bloque', 'mozzarella'],
+  },
+  {
+    nombre: 'Queso Costeño Merimun',
+    descripcion: 'Queso costeño firme y salado. Tradición colombiana de la costa Caribe, perfecto para suero, patacones y frituras.',
+    peso: '2.4 kg por unidad',
+    unidad: 'por unidad 2.4 kg',
     categoria: 'frescos',
     imagen: null,
     disponible: true,
     destacado: false,
     orden: 3,
-    etiquetas: ['tradicional', 'colombiano'],
+    etiquetas: ['2.4 kg', 'costeño', 'salado', 'colombiano'],
   },
   {
-    nombre: 'Ricotta Casera',
-    descripcion: 'Queso fresco y granulado, ideal para postres, rellenos de pasta y ensaladas. Bajo en sodio.',
-    precio: 20000,
-    unidad: 'por 500g',
-    categoria: 'frescos',
+    nombre: 'Mantequilla Merimun Premium',
+    descripcion: 'Mantequilla premium 100% natural elaborada con crema de leche fresca colombiana. Sin aditivos ni conservantes. Pedido mínimo 5 kg.',
+    peso: 'Desde 5 kg',
+    unidad: 'mínimo 5 kg',
+    categoria: 'especiales',
     imagen: null,
     disponible: true,
     destacado: false,
     orden: 4,
-    etiquetas: ['bajo sodio', 'versátil'],
-  },
-
-  // ─── MADURADOS ─────────────────────────────────
-  {
-    nombre: 'Queso Parmesano Colombiano',
-    descripcion: 'Madurado 12 meses en cámaras de temperatura controlada. Textura granular, sabor intenso y perfecto para rallar.',
-    precio: 65000,
-    unidad: 'por kg',
-    categoria: 'madurados',
-    imagen: null,
-    disponible: true,
-    destacado: true,
-    orden: 1,
-    etiquetas: ['añejado 12 meses', 'gourmet'],
+    etiquetas: ['desde 5 kg', '100% natural', 'sin conservantes'],
   },
   {
-    nombre: 'Queso Manchego Artesanal',
-    descripcion: 'Inspirado en la tradición española, elaborado con leche de oveja. Corteza natural, sabor ligeramente picante.',
-    precio: 55000,
-    unidad: 'por kg',
+    nombre: 'Queso Industrial por Bloque',
+    descripcion: 'Bloque de queso artesanal Merimun para industria, restaurantes y eventos. Elaborado con leche fresca en nuestra planta.',
+    peso: '12 kg por bloque',
+    unidad: 'bloque de 12 kg',
     categoria: 'madurados',
     imagen: null,
     disponible: true,
     destacado: false,
-    orden: 2,
-    etiquetas: ['oveja', 'español'],
-  },
-  {
-    nombre: 'Queso Gouda Ahumado',
-    descripcion: 'Gouda artesanal con proceso de ahumado natural en madera de roble. Corteza oscura, interior cremoso y suave.',
-    precio: 48000,
-    unidad: 'por kg',
-    categoria: 'madurados',
-    imagen: null,
-    disponible: true,
-    destacado: false,
-    orden: 3,
-    etiquetas: ['ahumado', 'roble'],
-  },
-
-  // ─── COMBOS / TABLAS ───────────────────────────
-  {
-    nombre: 'Tabla Gourmet para 2',
-    descripcion: 'Selección curada de 3 quesos (frescos + madurado), mermelada de mora, nueces, uvas frescas y galletas artesanales.',
-    precio: 85000,
-    unidad: 'por tabla',
-    categoria: 'combos',
-    imagen: null,
-    disponible: true,
-    destacado: true,
-    orden: 1,
-    etiquetas: ['para 2 personas', 'maridaje', 'regalo'],
-  },
-  {
-    nombre: 'Tabla Grande para Eventos',
-    descripcion: '6 variedades de quesos, charcutería, frutas de temporada, frutos secos, mermeladas y pan artesanal. Para 6-8 personas.',
-    precio: 220000,
-    unidad: 'por tabla',
-    categoria: 'combos',
-    imagen: null,
-    disponible: true,
-    destacado: false,
-    orden: 2,
-    etiquetas: ['6-8 personas', 'evento', 'personalizable'],
-  },
-  {
-    nombre: 'Combo Surtido Mensual',
-    descripcion: 'Suscripción mensual con 3 quesos frescos + 1 madurado seleccionado del mes. Entrega a domicilio incluida en Medellín.',
-    precio: 95000,
-    unidad: 'por mes',
-    categoria: 'combos',
-    imagen: null,
-    disponible: true,
-    destacado: false,
-    orden: 3,
-    etiquetas: ['suscripción', 'domicilio', 'mensual'],
-  },
-
-  // ─── ESPECIALES ────────────────────────────────
-  {
-    nombre: 'Queso de Cabra con Hierbas',
-    descripcion: 'Rulo de queso de cabra artesanal con hierbas provenzales: romero, tomillo y orégano. Sabor fresco y aromático.',
-    precio: 42000,
-    unidad: 'por rulo 300g',
-    categoria: 'especiales',
-    imagen: null,
-    disponible: true,
-    destacado: true,
-    orden: 1,
-    etiquetas: ['cabra', 'hierbas', 'gourmet'],
+    orden: 5,
+    etiquetas: ['12 kg', 'industrial', 'mayorista', 'restaurantes'],
   },
 ];
 
+// ─────────────────────────────────────────────────────────
 const seed = async () => {
-  console.log('🧀 Iniciando seed de productos...\n');
+  console.log('\n🧀 Cargando 5 productos reales de Merimun...\n');
 
+  // 1 — Borrar productos anteriores
+  console.log('🗑️  Borrando productos anteriores...');
+  const existing = await db.collection('productos').get();
+  if (!existing.empty) {
+    const deleteBatch = db.batch();
+    existing.docs.forEach(doc => deleteBatch.delete(doc.ref));
+    await deleteBatch.commit();
+    console.log(`   ${existing.size} productos eliminados.\n`);
+  } else {
+    console.log('   No había productos anteriores.\n');
+  }
+
+  // 2 — Cargar los 5 nuevos
   const batch = db.batch();
   const colRef = db.collection('productos');
 
-  for (const producto of productosEjemplo) {
-    const ref = colRef.doc(); // ID autogenerado
+  for (const producto of productos) {
+    const ref = colRef.doc();
     batch.set(ref, {
       ...producto,
       creadoEn: admin.firestore.FieldValue.serverTimestamp(),
     });
-    console.log(`  ✅ ${producto.nombre} (${producto.categoria})`);
+    console.log(`  ✅ ${producto.nombre}`);
+    console.log(`     Peso: ${producto.peso} | Categoría: ${producto.categoria}\n`);
   }
 
   await batch.commit();
 
-  console.log(`\n✨ Seed completado: ${productosEjemplo.length} productos agregados.`);
-  console.log('   Ahora puedes subir las fotos a Firebase Storage y actualizar los campos "imagen".');
+  console.log('🎉 ¡Listo! 5 productos cargados en Firestore.');
+  console.log('\n📸 PENDIENTE — sube las fotos a Firebase Storage:');
+  console.log('   1. Firebase Console → Storage → Subir archivos');
+  console.log('   2. Copia la URL pública de cada foto');
+  console.log('   3. En Firestore → productos → edita el campo "imagen" de cada uno\n');
   process.exit(0);
 };
 
 seed().catch((err) => {
-  console.error('❌ Error en seed:', err);
+  console.error('\n❌ Error:', err.message);
   process.exit(1);
 });

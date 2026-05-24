@@ -242,8 +242,8 @@ const Contacto = ({ productoPreseleccionado, onLimpiarProducto }) => {
 
             <div className="space-y-5">
               {[
-                { icon: '📱', label: 'WhatsApp', val: '+57 300 000 0000' },
-                { icon: '📧', label: 'Correo', val: 'ventas@laqueseria.com' },
+                { icon: '📱', label: 'WhatsApp', val: '+57 3007806178' },
+                { icon: '📧', label: 'Correo', val: 'ventas@quesomerimun.com' },
                 { icon: '📍', label: 'Zona de entrega', val: 'Medellín y área metropolitana' },
                 { icon: '🕐', label: 'Horario', val: 'Lun–Sáb 8am–6pm' },
               ].map((item) => (

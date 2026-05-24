@@ -8,8 +8,8 @@ const Footer = () => (
           {/* logo de la empresa */}
           <div className="flex items-center gap-3 mb-4">
             <img
-              src="/logo1.png"
-              alt="La Quesería de Miramu"
+              src="logo2.png"
+              alt="La Quesería de Merimun"
               className="h-12 w-auto object-contain"
               style={{ filter: 'brightness(1.1)' }}
             />
@@ -47,8 +47,8 @@ const Footer = () => (
             Contacto
           </p>
           <ul className="space-y-2 font-body text-queso-300/70 text-sm">
-            <li>📧 ventas@laqueseria.com</li>
-            <li>📱 +57 300 000 0000</li>
+            <li>📧 ventas@quesomerimun.com</li>
+            <li>📱 +57 3007806178</li>
             <li>📍 Medellín, Antioquia</li>
             <li className="flex gap-4 pt-2">
               {['Instagram', 'Facebook', 'WhatsApp'].map((red) => (
@@ -66,12 +66,12 @@ const Footer = () => (
         {/* Logo pequeño en el copyright */}
         <div className="flex items-center gap-3">
           <img
-            src="/logo.png"
-            alt="La Quesería de Miramu"
+            src="logo2.png"
+            alt="La Quesería de Merimun"
             className="h-7 w-auto object-contain opacity-70"
           />
           <p className="font-body text-queso-400/60 text-xs">
-            © {new Date().getFullYear()} La Quesería de Miramu. Todos los derechos reservados.
+            © {new Date().getFullYear()} La Quesería de Merimun. Todos los derechos reservados.
           </p>
         </div>
         <p className="font-body text-queso-500/50 text-xs">

@@ -1,3 +1,5 @@
+import React from 'react';
+
 const Hero = () => {
   const scrollToMenu = () => {
     document.querySelector('#menu')?.scrollIntoView({ behavior: 'smooth' });
@@ -10,15 +12,22 @@ const Hero = () => {
   return (
     <section
       id="inicio"
-      className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ background: 'linear-gradient(160deg, #78350F 0%, #92400E 30%, #B45309 60%, #D97706 100%)' }}
+      className="relative min-h-screen flex items-center justify-center overflow-hidden bg-cover bg-center bg-no-repeat bg-fixed"
+      style={{ 
+        /* 1. AGREGAMOS TU IMAGEN DE FONDO + OVERLAY PARA MANTENER TU DEGRADADO ORIGINAL */
+        backgroundImage: `linear-gradient(160deg, rgba(23, 219, 219, 0.75) 0%, rgba(34, 118, 207, 0.8) 30%, rgba(0, 145, 255, 0.85) 60%, rgba(10, 60, 211, 0.9) 100%), url('/logo2.png')`,
+        /* Reemplaza '/images/fondo-quesos.jpg' por la ruta de tu foto de quesos */
+      }}
     >
       {/* Patrón decorativo de fondo */}
       <div className="absolute inset-0 opacity-10"
         style={{
-          backgroundImage: `radial-gradient(circle at 20% 50%, #FCD34D 0%, transparent 50%),
-                            radial-gradient(circle at 80% 20%, #F59E0B 0%, transparent 40%),
-                            radial-gradient(circle at 60% 80%, #FDE68A 0%, transparent 40%)`,
+          backgroundImage: `radial-gradient(circle at 20% 50%, #000000 0%, transparent 100%),
+                            radial-gradient(circle at 80% 20%, #0d0d0d 0%, transparent 100%),
+                            radial-gradient(circle at 60% 80%, #141002 0%, transparent 100%),
+                            radial-gradient(circle at 40% 60%, #1a1a1a 0%, transparent 100%)`,
+          backgroundSize: '200px 200px',
+          backgroundRepeat: 'repeat',
         }}
       />
 
@@ -34,12 +43,12 @@ const Hero = () => {
         {/* Badge */}
         <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/15 backdrop-blur-sm border border-white/20 text-queso-100 text-sm font-body mb-8 animate-fade-in">
           <span>✨</span>
-          <span>Queso de miramu esta desde 1987</span>
+          <span>Queso de merimun esta desde 1987</span>
         </div>
 
         {/* Título principal */}
         <h1
-          className="font-display font-bold text-white leading-none mb-6 animate-slide-up"
+          className="font-display font-bold text-yellow-400 leading-none mb-6 animate-slide-up"
           style={{ fontSize: 'clamp(2.5rem, 7vw, 5.5rem)' }}
         >
           El Arte del
@@ -48,10 +57,10 @@ const Hero = () => {
             className="inline-block"
             style={{
               WebkitTextStroke: '2px rgba(255,255,255,0.3)',
-              color: '#FDE68A',
+              color: '#FACC15',
             }}
           >
-            Queso miramu
+            Queso merimun
           </span>
         </h1>
 
