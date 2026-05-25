@@ -173,8 +173,8 @@ exports.pedidos = onRequest({ region: 'us-central1' }, (req, res) => {
 // HELPER: Enviar correos
 // ══════════════════════════════════════════════════════════
 async function enviarCorreos(pedido, archivoBuffer, archivoNombre, archivoMime) {
-  const EMAIL_TO = process.env.EMAIL_TO || 'ventas@quesomerimun.com';
-  const EMAIL_FROM = process.env.EMAIL_FROM || 'La Quesería <ventas@quesomerimun.com>';
+  const EMAIL_TO = process.env.EMAIL_TO || 'condecristian126@gmail.com';
+  const EMAIL_FROM = process.env.EMAIL_FROM || 'La Quesería <condecristian126@gmail.com>';
 
   if (!process.env.EMAIL_USER) {
     console.log('[SIN EMAIL CONFIG] Pedido de:', pedido.nombre, '- Pago:', pedido.formaPago);

@@ -22,7 +22,7 @@ export const apiLimiter = rateLimit({
  */
 export const pedidosLimiter = rateLimit({
   windowMs: 60 * 60 * 1000, // 1 hora
-  max: 5, // máximo 5 pedidos por hora por IP
+  max: 10, // máximo 10 pedidos por hora por IP
   standardHeaders: true,
   legacyHeaders: false,
   message: {

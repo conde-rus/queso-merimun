@@ -5,17 +5,13 @@ import Hero from './components/sections/Hero';
 import Menu from './components/sections/Menu';
 import Nosotros from './components/sections/Nosotros';
 import Contacto from './components/sections/Contacto';
+import WhatsAppButton from './components/ui/WhatsAppButton'; // ← agrega esta línea
 
-/**
- * Componente raíz de la aplicación.
- * Maneja el estado global del producto preseleccionado para el formulario.
- */
 function App() {
   const [productoSeleccionado, setProductoSeleccionado] = useState(null);
 
   const handlePedir = (producto) => {
     setProductoSeleccionado(producto);
-    // Scroll suave al formulario de contacto
     setTimeout(() => {
       document.querySelector('#contacto')?.scrollIntoView({ behavior: 'smooth' });
     }, 100);
@@ -24,7 +20,6 @@ function App() {
   return (
     <div className="min-h-screen font-body">
       <Navbar />
-
       <main>
         <Hero />
         <Menu onPedir={handlePedir} />
@@ -34,8 +29,8 @@ function App() {
           onLimpiarProducto={() => setProductoSeleccionado(null)}
         />
       </main>
-
       <Footer />
+      <WhatsAppButton />  {/* ← agrega esta línea */}
     </div>
   );
 }

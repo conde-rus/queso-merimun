@@ -32,8 +32,8 @@ const reglasValidacion = [
   body('ciudad').trim().isLength({ min: 2 }).withMessage('Ciudad requerida.').escape(),
   body('mensaje').trim().isLength({ min: 10, max: 2000 }).withMessage('Describe tu pedido.').escape(),
   body('formaPago')
-    .isIn(['nequi', 'bancolombia'])
-    .withMessage('Forma de pago inválida.'),
+  .isIn(['nequi', 'bancolombia', 'pendiente'])
+  .withMessage('Forma de pago inválida.'),
 ];
 
 /**

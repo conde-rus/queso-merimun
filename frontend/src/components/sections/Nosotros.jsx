@@ -31,27 +31,27 @@ const Nosotros = () => {
             <div
               className="rounded-3xl overflow-hidden"
               style={{
-                background: 'linear-gradient(135deg, #020202, #000000, #7d7d7d)',
+                background: 'linear-gradient(135deg, #127fd3, #75768e, #7d7d7d)',
                 aspectRatio: '4/3',
               }}
             >
                      {/* Logo centrado, grande y bien ajustado */}
               <div className="w-full h-full flex flex-col items-center justify-center gap-4 px-10">
                 <img
-                  src="/logo1.png"
+                  src="/logo2.png"
                   alt="La Quesería de Miramu"
                   className="w-full max-w-xs object-contain"
-                  style={{ maxHeight: '180px' }}
+                  style={{ maxHeight: '900px' }}
                 />
                 <p
                   className="font-display font-bold text-2xl"
-                  style={{ color: '#C8956C' }}   /* bronce/dorado apagado */
+                  style={{ color: '#000000' }}   /* bronce/dorado apagado */
                 >
                   Desde 1987
                 </p>
                 <p
                   className="font-body text-base"
-                  style={{ color: '#9E7B60' }}
+                  style={{ color: '#000000' }}
                 >
                   Haciendo quesos con amor
                 </p>
