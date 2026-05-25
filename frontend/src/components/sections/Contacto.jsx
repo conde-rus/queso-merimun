@@ -235,7 +235,7 @@ const Contacto = ({ productoPreseleccionado, onLimpiarProducto }) => {
               {[
                 { icon: '📱', label: 'WhatsApp', val: '+57 3007806178' },
                 { icon: '📧', label: 'Correo', val: 'ventas@quesomerimun.com' },
-                { icon: '📍', label: 'Zona de entrega', val: 'Medellín y área metropolitana' },
+                { icon: '📍', label: 'Zona de entrega', val: 'carrera 51 #45-22 oficia 804 medellin' },
                 { icon: '🕐', label: 'Horario', val: 'Lun–Sáb 8am–6pm' },
               ].map((item) => (
                 <div key={item.label} className="flex items-start gap-4">

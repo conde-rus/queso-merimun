@@ -8,7 +8,13 @@ const transporter = nodemailer.createTransport({
     user: process.env.EMAIL_USER,
     pass: process.env.EMAIL_PASS,
   },
+  // ⚠️ AÑADE ESTO AQUÍ ABAJO PARA CORREGIR EL TIMEOUT EN RAILWAY
+  tls: {
+    rejectUnauthorized: false
+  }
 });
+
+// El resto de tu código (verificarConexionEmail, badgePago, enviarNotificacionPedido...) queda EXACTAMENTE IGUAL.
 
 export const verificarConexionEmail = async () => {
   if (!process.env.EMAIL_USER) {
